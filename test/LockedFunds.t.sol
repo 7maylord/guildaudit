@@ -38,24 +38,23 @@ contract LockedFundsTest is Test {
     }
 
     function testIntegrationFundsGetLocked() public {
-    // Owner deposits 1 ETH
-    vm.prank(owner);
-    lockedFunds.deposit{value: 1 ether}();
+        // Owner deposits 1 ETH
+        vm.prank(owner);
+        lockedFunds.deposit{value: 1 ether}();
 
-    // Owner plans to withdraw 2 ETH later...
-    // But attacker sends extra 0.5 ETH (maybe by mistake or on purpose)
-    vm.prank(attacker);
-    lockedFunds.deposit{value: 0.5 ether}();
+        // Owner plans to withdraw 2 ETH later...
+        // But attacker sends extra 0.5 ETH (maybe by mistake or on purpose)
+        vm.prank(attacker);
+        lockedFunds.deposit{value: 0.5 ether}();
 
-    // Owner tries to withdraw 1 ETH
-    vm.prank(owner);
-    vm.expectRevert("Balance not exactly equal");
-    lockedFunds.withdraw(2 ether);
+        // Owner tries to withdraw 1 ETH
+        vm.prank(owner);
+        vm.expectRevert("Balance not exactly equal");
+        lockedFunds.withdraw(2 ether);
 
-    // Owner is now stuck — no amount will work unless balance matches exactly
-    // Try withdrawing full 2.5 ETH
-    vm.prank(owner);
-    lockedFunds.withdraw(2.5 ether); // Works only if guessed exactly
-}
-
+        // Owner is now stuck — no amount will work unless balance matches exactly
+        // Try withdrawing full 2.5 ETH
+        vm.prank(owner);
+        lockedFunds.withdraw(2.5 ether); // Works only if guessed exactly
+    }
 }

@@ -16,7 +16,7 @@ contract LockedFunds {
         require(msg.sender == owner, "Not owner");
         require(address(this).balance == amount, "Balance not exactly equal");
 
-        (bool sent, ) = owner.call{value: amount}("");
+        (bool sent,) = owner.call{value: amount}("");
         require(sent, "Transfer failed");
     }
 }
